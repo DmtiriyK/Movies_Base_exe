@@ -1,81 +1,108 @@
 TMDB Movie Database — Desktop v3
+<p align="center"> <img src="screenshots/hero.png" alt="TMDB Desktop v3 — overview" width="100%"> </p> <p align="center"> <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white" alt="Python 3.10+"></a> <a href="https://www.qt.io/"><img src="https://img.shields.io/badge/PyQt6-desktop-41CD52?logo=qt&logoColor=white" alt="PyQt6"></a> <a href="#"><img src="https://img.shields.io/badge/MySQL-local-4479A1?logo=mysql&logoColor=white" alt="MySQL local"></a> <a href="#"><img src="https://img.shields.io/badge/MongoDB-logs-47A248?logo=mongodb&logoColor=white" alt="MongoDB logs"></a> <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache--2.0-blue.svg" alt="License"></a> </p>
 
-A desktop client for exploring your local movies database with rich search, analytics and favorites. UI in English. Data lives in your own MySQL database (not Sakila). Actions and app events are additionally logged to MongoDB for auditing and analysis.
+A desktop client for exploring a local movies database with quick/advanced search, analytics, favorites and a clean dark UI.
+Uses MySQL for primary data and MongoDB for app logs. Posters are loaded via TMDB API.
+
+Table of contents
+
+Features
+
+Tech stack
+
+Screenshots
+
+Project layout
+
+Getting started
+
+Configuration
+
+Keyboard shortcuts
+
+Data & logging
+
+Roadmap
+
+License
 
 ✨ Features
 
-Quick & Advanced search by title, description, actor; filters by rating, years, runtime; sorting presets
+Quick & Advanced search: title/actor/mode toggles, rating/year/runtime filters, preset sort
 
 Genres / Years tab for targeted discovery
 
 Analytics: distribution by year, top genres, ratings histogram, average runtime by genre
 
-Favorites with tags and notes; CSV/Excel export
+Favorites with tags & notes, CSV/Excel export
 
-Details modal with poster, rating, genres, cast; shortcuts for trailer and external pages
+Movie details modal with poster, rating, genres, cast + shortcuts (Trailer, TMDB, IMDb)
 
-Settings: TMDB API key for posters, DB connection, cache controls
+Settings: TMDB API key, DB connection, cache control
 
-Keyboard shortcuts for search, refresh, export, fullscreen
+Dark UI tuned for readability
 
 🧱 Tech stack
 
-Python, PyQt6, MySQL (primary data), MongoDB (logs), Matplotlib. Repository is primarily Python and licensed under Apache-2.0. 
-GitHub
+Python 3.10+, PyQt6
+
+MySQL as the primary store (your local DB, not Sakila)
+
+MongoDB for logs and audit trail
+
+Matplotlib for charts
+
+Packaging/scripts in scripts/
 
 🖼 Screenshots
 
-Put images into screenshots/ (already present in the repo) and keep names readable.
+Images live in screenshots/. If your filenames differ, adjust the paths below.
 
-Quick search (empty)
-screenshots/01_quick-search_empty.png
-
-Results + Movie details
-screenshots/02_quick-search_results_movie-details.png
+Search & Details
+<img src="screenshots/01_quick-search_empty.png" width="49%"> <img src="screenshots/02_quick-search_results_movie-details.png" width="49%">
 
 Genres / Years
-screenshots/03_genres-years_tab.png
+<img src="screenshots/03_genres-years_tab.png" width="100%">
 
-Analytics overview
-screenshots/05_analytics_overview.png
+Analytics
+<img src="screenshots/05_analytics_overview.png" width="100%">
 
-Favorites (empty state)
-screenshots/11_favorites_empty.png
+Favorites & Settings
+<img src="screenshots/07_favor.png" width="49%"> <img src="screenshots/12_settings_modal_on_analytics.png" width="49%">
 
-Settings dialog
-screenshots/12_settings_modal_on_analytics.png
+About
+<img src="screenshots/06_about_dialog.png" width="60%">
 
-About dialog
-screenshots/06_about_dialog.png
+Хочешь красивый баннер сверху? Положи наш коллаж как screenshots/hero.png. У тебя уже есть варианты linkedin_collage_clean_1920x1080.png и т.п. Просто переименуй любой из них в hero.png.
 
-Menus (File / View / Tools / Help)
-screenshots/07_menu_file_open.png, 08_menu_view_open.png, 09_menu_tools_open.png, 10_menu_help_open.png
-
-📦 Project layout
+🗂 Project layout
 .
-├─ scripts/                 # helper scripts (import/export/seed, etc.)
-├─ screenshots/             # images used in README
-├─ docs/                    # extra docs/assets
-├─ LICENSE
+├─ scripts/                # helper scripts (import/export/seed, etc.)
+├─ screenshots/            # images used in README and promo
+├─ docs/                   # extra docs / diagrams (optional)
+├─ main_gui3_en.py         # app entry (or your package entry point)
+├─ requirements.txt
 └─ README.md
 
+🚀 Getting started
+# 1) Create venv & install deps
+python -m venv .venv
+# Windows:
+.venv\Scripts\activate
+# macOS/Linux:
+source .venv/bin/activate
+pip install -r requirements.txt
 
-(Папки scripts/, screenshots/, docs/ и лицензия видны в репозитории сейчас. ) 
-GitHub
+# 2) Set environment (see .env example below)
 
-⚙️ Requirements
+# 3) Run the app
+python main_gui3_en.py
+# or, if packaged as a module:
+# python -m tmdb_desktop
 
-Python 3.10+
+⚙️ Configuration
 
-MySQL 8.x (local instance for the main dataset)
-
-MongoDB 6.x (for app logs)
-
-A TMDB API key for posters
-
-🔧 Configuration
-
-Create an .env at the repo root:
+Create .env in the repo root:
 
 # MySQL (primary data)
 MYSQL_HOST=localhost
@@ -88,80 +115,51 @@ MYSQL_PASSWORD=your_password
 MONGO_URI=mongodb://localhost:27017
 MONGO_DB=tmdb_desktop_logs
 
-# App
+# External
 TMDB_API_KEY=your_tmdb_key
+
+# UI
 APP_LANG=en
 
-▶️ Run locally
-# 1) Create venv & install deps
-python -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-
-# 2) Launch the app
-python main_gui3_en.py
-# or, if you’ve wrapped it as a package:
-# python -m tmdb_desktop
-
-
-If you ship a packaged EXE later, add the link and command here.
-
-🗄️ Data model (high level)
-
-Relational core in MySQL (films, people, genres, links). App writes behavioral and error logs to MongoDB collections like:
-
-app_events: actions, search queries, favorites ops
-
-errors: exceptions with context
-
-analytics_snapshots: optional precomputed stats
-
-🧭 Keyboard shortcuts
+⌨️ Keyboard shortcuts
 
 Ctrl+Enter run search, Ctrl+R reset filters
 
 F5 refresh current tab, F11 fullscreen
 
-Ctrl+E CSV export, Ctrl+Shift+E Excel export
+Ctrl+E export CSV, Ctrl+Shift+E export Excel
 
 Ctrl+, settings, Ctrl+Q exit
 
-Double click row → movie details; right click → context menu
+Double-click row → details; Right-click → context menu
 
-🧼 Privacy & API
+📊 Data & logging
 
-Posters use TMDB; the app does not ship TMDB data. You need your own API key.
+Primary DB: your local MySQL instance with movies, people, genres, links.
 
-Logs stay in your MongoDB unless you change the URI.
+Logging: app events, errors and optional analytics snapshots go to MongoDB:
 
-🧪 Smoke test
+app_events — user actions (search, favorites ops)
 
-Populate MySQL with your movie dataset.
+errors — exceptions with context
 
-Set .env and start the app.
+analytics_snapshots — optional precomputed stats
 
-Quick search: type “star,” open movie details.
+ТМDB ключ используется только для постеров. Данные TMDB не сохраняются в репозитории.
 
-Analytics tab should render four charts.
+🗺️ Roadmap
 
-Open Settings, paste TMDB key, test cache clear.
+i18n dictionaries (EN default already)
 
-Add a movie to Favorites and export CSV.
+Packaging for Windows (.exe)
 
-🚀 Roadmap
+More analytics (per-actor trends, decades)
 
-i18n JSON dictionaries (EN already default)
+Smarter poster caching & retries
 
-Packaging: Windows installer
-
-More analytics (per-actor, per-decade)
-
-Better poster caching and retries
-
-🤝 Contributing
-
-PRs are welcome. Keep functions small, type-hinted, and add docstrings. For UI labels, prefer i18n wrappers over hard-coded strings.
+Optional Docker setup for DBs
 
 📜 License
 
-Apache-2.0. See LICENSE in the repo.
+Apache-2.0 — see LICENSE
+.
