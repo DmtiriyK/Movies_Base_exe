@@ -73,7 +73,6 @@ Favorites & Settings
 About
 <img src="screenshots/06_about_dialog.png" width="60%">
 
-Хочешь красивый баннер сверху? Положи наш коллаж как screenshots/hero.png. У тебя уже есть варианты linkedin_collage_clean_1920x1080.png и т.п. Просто переименуй любой из них в hero.png.
 
 🗂 Project layout
 .
@@ -96,7 +95,7 @@ pip install -r requirements.txt
 # 2) Set environment (see .env example below)
 
 # 3) Run the app
-python main_gui3_en.py
+python main_gui3.py
 # or, if packaged as a module:
 # python -m tmdb_desktop
 
@@ -107,7 +106,7 @@ Create .env in the repo root:
 # MySQL (primary data)
 MYSQL_HOST=localhost
 MYSQL_PORT=3306
-MYSQL_DB=moviesdb
+MYSQL_DB=*******
 MYSQL_USER=root
 MYSQL_PASSWORD=your_password
 
@@ -145,7 +144,6 @@ errors — exceptions with context
 
 analytics_snapshots — optional precomputed stats
 
-ТМDB ключ используется только для постеров. Данные TMDB не сохраняются в репозитории.
 
 🗺️ Roadmap
 
